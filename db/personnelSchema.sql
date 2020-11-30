@@ -1,7 +1,12 @@
-CREATE DATABASE IF NOT EXISTS personnel-tracker_db;
-USE personnel-tracker_db;
+CREATE DATABASE IF NOT EXISTS personnel_tracker_db;
+
+USE personnel_tracker_db;
 
 DROP TABLE IF EXISTS department;
+
+DROP TABLE IF EXISTS role;
+
+DROP TABLE IF EXISTS employee;
 
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
