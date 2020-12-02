@@ -22,3 +22,26 @@ connection.connect(function(err) {
   // run the start function after the connection is made to prompt the user
   start();
 });
+
+// function which prompts the user for what action they should take
+function start() {
+    inquirer
+      .prompt({
+        name: "userWhatToDo",
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "View All Roles", "Add Role", "Remove Role", "EXIT"]
+      })
+      .then(function(answer) {
+        // based on their answer, either call the bid or the post functions 
+        if (answer.userWhatToDo === "View All Employees") {
+          viewEmployeesAll();
+        }
+        else if(answer.userWhatToDo === "View All Employees By Department") {
+          viewEmployeesByDept();
+        } 
+        else if(answer.userWhatToDo === "EXIT") {
+          connection.end();
+        }
+      });
+  }
