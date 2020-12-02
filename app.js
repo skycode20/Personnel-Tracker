@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "",
+  password: "CodingDreams2020!",
   database: "personnel_tracker_db"
 });
 
@@ -45,3 +45,15 @@ function start() {
         }
       });
   }
+
+  function viewEmployeesAll() {
+    console.log("Selecting all employees...\n");
+    connection.query("SELECT * FROM employee", function(err, res) {
+      if (err) throw err;
+      // Log all results of the SELECT statement
+      console.log(res);
+    //   start();
+      connection.end();
+    });
+  }
+  
