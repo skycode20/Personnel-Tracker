@@ -40,6 +40,30 @@ function start() {
         else if(answer.userWhatToDo === "View All Employees By Department") {
           viewEmployeesByDept();
         } 
+        else if(answer.userWhatToDo === "View All Employees By Manager") {
+          viewEmployeesByManager();
+        } 
+        else if(answer.userWhatToDo === "Add Employee") {
+          addEmployee();
+        } 
+        else if(answer.userWhatToDo === "Remove Employee") {
+          removeEmployee();
+        } 
+        else if(answer.userWhatToDo === "Update Employee Role") {
+          updateEmployeeRole();
+        } 
+        else if(answer.userWhatToDo === "Update Employee Manager") {
+          updateEmployeeManager();
+        } 
+        else if(answer.userWhatToDo === "View All Roles") {
+          viewAllRoles();
+        } 
+        else if(answer.userWhatToDo === "Add Role") {
+          addRole();
+        } 
+        else if(answer.userWhatToDo === "Remove Role") {
+          removeRole();
+        } 
         else if(answer.userWhatToDo === "EXIT") {
           connection.end();
         }
