@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS personnel_tracker_db;
+
 CREATE DATABASE IF NOT EXISTS personnel_tracker_db;
 
 USE personnel_tracker_db;
@@ -19,7 +21,7 @@ CREATE TABLE role (
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
     dept_id INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
 );
 
 CREATE TABLE employee (
@@ -28,5 +30,5 @@ CREATE TABLE employee (
     last_name varchar(30) NOT NULL,
     role_id INT NOT NULL,
     manager_id INT,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
 );

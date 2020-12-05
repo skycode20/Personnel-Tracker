@@ -1,8 +1,8 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
+const mysql = require("mysql");
+const inquirer = require("inquirer");
 
 // create the connection information for the sql database
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   host: "localhost",
 
   // Your port; if not 3306
@@ -75,9 +75,9 @@ function start() {
     connection.query("SELECT * FROM employee", function(err, res) {
       if (err) throw err;
       // Log all results of the SELECT statement
-      console.log(res);
-    //   start();
-      connection.end();
+      console.table(res);
+      start();
+    //   connection.end();
     });
   }
   
