@@ -70,9 +70,14 @@ function start() {
       });
   }
 
-  function viewEmployeesAll() {
+  function viewEmployeesAll(data) {
     console.log("Selecting all employees...\n");
-    connection.query("SELECT * FROM employee", function(err, res) {
+    connection.query(`SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id, role.title, role.dept_id, department.dept_name, role.salary
+    FROM personnel_tracker_db.employee
+    JOIN personnel_tracker_db.role
+    ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
+    JOIN personnel_tracker_db.department
+    ON personnel_tracker_db.role.dept_id=personnel_tracker_db.department.id`, data, function(err, res) {
       if (err) throw err;
       // Log all results of the SELECT statement
       console.table(res);
