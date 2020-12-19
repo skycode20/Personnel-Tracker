@@ -30,7 +30,7 @@ function start() {
       name: "userWhatToDo",
       type: "list",
       message: "What would you like to do?",
-      choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "View All Roles", "Add Role", "Remove Role", "EXIT"]
+      choices: ["View All Employees", "View All Employees By Department", "View All Employees By Role", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "View All Employees By Manager", "Add Role", "Remove Role", "EXIT"]
     })
     .then(function (answer) {
       // based on their answer, either call the bid or the post functions 
@@ -40,8 +40,8 @@ function start() {
       else if (answer.userWhatToDo === "View All Employees By Department") {
         viewEmployeesByDept();
       }
-      else if (answer.userWhatToDo === "View All Employees By Manager") {
-        viewEmployeesByManager();
+      else if (answer.userWhatToDo === "View All Employees By Role") {
+        viewEmployeesByRole();
       }
       else if (answer.userWhatToDo === "Add Employee") {
         addEmployee();
@@ -55,8 +55,8 @@ function start() {
       else if (answer.userWhatToDo === "Update Employee Manager") {
         updateEmployeeManager();
       }
-      else if (answer.userWhatToDo === "View All Roles") {
-        viewAllRoles();
+      else if (answer.userWhatToDo === "View All Employees By Manager") {
+        viewEmployeesByManager();
       }
       else if (answer.userWhatToDo === "Add Role") {
         addRole();
@@ -111,4 +111,37 @@ function viewEmployeesByDept() {
         });
       })
   })
+}
+
+function viewEmployeesByRole() {
+  console.log("Selecting employees by role...\n");
+  let userChoice = [];
+  connection.query("SELECT role.title FROM personnel_tracker_db.role", function (err, res) {
+    if (err) throw err;
+    let userChoice = new Map(res.map(n => ([n.title, n.id])));
+    let selectRole = Array.from(userChoice.keys());
+    inquirer
+      .prompt([{
+        name: "roleSelection",
+        type: "list",
+        message: "Which role would you like to select?",
+        choices: selectRole
+      }]).then(function (answer) {
+        connection.query(`SELECT *
+        FROM personnel_tracker_db.employee 
+        JOIN personnel_tracker_db.role
+        ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
+        JOIN personnel_tracker_db.department 
+        ON personnel_tracker_db.department.id=personnel_tracker_db.role.dept_id
+        WHERE personnel_tracker_db.role.title = ?
+        ORDER BY employee.id, first_name ASC`, answer.roleSelection, function (err, res) {
+          if (err) throw err;
+          // Log all results of the SELECT statement
+          console.table(res);
+          start();
+          //   connection.end();
+        });
+      })
+  })
+
 }
