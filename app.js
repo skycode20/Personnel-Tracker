@@ -87,22 +87,27 @@ function viewEmployeesAll() {
 }
 
 function viewEmployeesByDept() {
-  console.log("Selecting employees by deparment...\n");
+  console.log("Selecting employees by dept...\n");
   let userChoice = [];
   connection.query("SELECT department.dept_name FROM personnel_tracker_db.department", function (err, res) {
     if (err) throw err;
-    userChoice = res;
+    let userChoice = new Map(res.map(n => ([n.dept_name, n.id])));
+    let selectDept = Array.from(userChoice.keys());
     inquirer
       .prompt([{
-        name: "selectDept",
+        name: "deptSelection",
         type: "list",
-        message: "Which department would you like to select?",
-        choices: userChoice
+        message: "Which role would you like to select?",
+        choices: selectDept
       }]).then(function (answer) {
-        connection.query(`SELECT employee.first_name, employee.last_name, department.dept_name AS department 
-          FROM employee JOIN role ON employee.role_id = role.id 
-          JOIN department ON role.dept_id = department.id 
-          ORDER BY employee.id`, answer.selectDept, function (err, res) {
+        connection.query(`SELECT *
+        FROM personnel_tracker_db.employee 
+        JOIN personnel_tracker_db.role
+        ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
+        JOIN personnel_tracker_db.department 
+        ON personnel_tracker_db.role.dept_id=personnel_tracker_db.department.id
+        WHERE personnel_tracker_db.department.dept_name = ?
+        ORDER BY employee.id, first_name ASC`, answer.deptSelection, function (err, res) {
           if (err) throw err;
           // Log all results of the SELECT statement
           console.table(res);
@@ -111,6 +116,7 @@ function viewEmployeesByDept() {
         });
       })
   })
+
 }
 
 function viewEmployeesByRole() {
