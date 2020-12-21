@@ -338,3 +338,47 @@ function removeEmployee() {
           });
   })
 };
+
+
+function updateEmployeeRole() {
+  connection.query(
+      "SELECT employee.first_name, employee.id FROM personnel_tracker_db.employee",
+      null,
+      function (err, results) {
+          if (err) throw err;        
+          let personnelArray = new Map(results.map(a => ([a.first_name, a.id])));
+
+          connection.query(
+              "SELECT role.title, role.id FROM personnel_tracker_db.role",
+              null,
+              function (err, data) {
+                  if (err) throw err;
+
+                  let rolesArray = new Map(data.map(b => ([b.title, b.id])));
+                  inquirer
+                      .prompt([{
+                          name: "changeEmpRole",
+                          type: "list",
+                          message: "Please select the employee's role you would like to change:",
+                          choices: Array.from(personnelArray.keys()),
+                      }, {
+                          name: "newEmpRole",
+                          type: "list",
+                          message: "Please enter the employee's new role:",
+                          choices: Array.from(rolesArray.keys()),
+                      }]).then(function (answer) {
+                          connection.query(
+                              "UPDATE personnel_tracker_db.employee SET role_id = ? WHERE id = ?",
+                              [rolesArray.get(answer.newEmpRole), personnelArray.get(answer.changeEmpRole)],
+                              function (err) {
+                                  if (err) throw err;
+                                  console.log("The employee's role was successfully updated!");
+                                  start();
+                              }
+                          );
+                      }
+                      )
+              }
+          );
+      })
+};
