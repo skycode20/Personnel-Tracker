@@ -74,7 +74,7 @@ function start() {
 }
 
 function viewEmployeesAll() {
-  console.log("Selecting all employees...\n");
+  console.log("\nSelecting all employees...\n");
   connection.query(`SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id, role.title, role.dept_id, department.dept_name, role.salary
     FROM personnel_tracker_db.employee
     JOIN personnel_tracker_db.role
@@ -90,7 +90,7 @@ function viewEmployeesAll() {
 }
 
 function viewEmployeesByDept() {
-  console.log("Selecting employees by dept...\n");
+  console.log("\nSelecting employees by dept...\n");
   let userChoice = [];
   connection.query("SELECT department.dept_name FROM personnel_tracker_db.department", function (err, res) {
     if (err) throw err;
@@ -123,7 +123,7 @@ function viewEmployeesByDept() {
 }
 
 function viewEmployeesByRole() {
-  console.log("Selecting employees by role...\n");
+  console.log("\nSelecting employees by role...\n");
   let userChoice = [];
   connection.query("SELECT role.title FROM personnel_tracker_db.role", function (err, res) {
     if (err) throw err;
@@ -236,7 +236,7 @@ function addEmployee() {
                       },
                       function (err) {
                           if (err) throw err;
-                          console.log("Employee " + answer.empFirstName + " " + answer.empLastName + " added!");
+                          console.log("\nEmployee " + answer.empFirstName + " " + answer.empLastName + " added!\n");
                           start();
                       }
                   );
@@ -270,7 +270,7 @@ function addRole() {
               },
               function (err, res) {
                   if (err) throw err;
-                  console.log("The " + answer.roleName + " role was successfully added!")
+                  console.log("\nThe " + answer.roleName + " role was successfully added!\n")
                   start();
               }
           );          
@@ -331,7 +331,7 @@ function removeEmployee() {
 
                   function (err) {
                       if (err) throw err;
-                      console.log("The employee was successfully removed. Good Luck!");
+                      console.log("\nThe employee was successfully removed. Good Luck!\n");
                       start();
                   }
               );
@@ -372,7 +372,7 @@ function updateEmployeeRole() {
                               [rolesArray.get(answer.newEmpRole), personnelArray.get(answer.changeEmpRole)],
                               function (err) {
                                   if (err) throw err;
-                                  console.log("The employee's role was successfully updated!");
+                                  console.log("\nThe employee's role was successfully updated!\n");
                                   start();
                               }
                           );
