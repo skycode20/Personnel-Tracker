@@ -166,7 +166,14 @@ function addEmployee() {
           for (let i = 0; i < data.length; i++) {
               let deptList = data[i].dept_name;
               selectedDept.push(deptList);
-          }
+          };
+          // let selectedManager = [];
+          // connection.query("SELECT * FROM employee", function (err, data) {
+          //   if (err) throw err;
+          //   for (let i = 0; i < data.length; i++) {
+          //       let empList = data[i].first_name + " " + data[i].last_name;
+          //       selectedManager.push(empList);
+          //   };
           inquirer
               .prompt([
                   {
@@ -190,6 +197,12 @@ function addEmployee() {
                       message: "Select employee's department:",
                       choices: selectedDept
                   },
+                  // {
+                  //     name: "manager_id",
+                  //     type: "list",
+                  //     message: "Select employee's manager:",
+                  //     choices: selectedManager
+                  // },
               ]).then(function (answer) {
                   let roleChosen;
                   for (let i = 0; i < result.length; i++) {
@@ -203,6 +216,12 @@ function addEmployee() {
                           deptChosen = data[i];
                       }
                   };
+                  // let managerChosen;
+                  // for (let i = 0; i < data.length; i++) {
+                  //     if (data[i].id === answer.manager_id) {
+                  //         managerChosen = data[i];
+                  //     }
+                  // };
                   //connection to insert response into database  
                   connection.query(
                       "INSERT INTO employee SET ?",
@@ -210,7 +229,7 @@ function addEmployee() {
                           first_name: answer.empFirstName,
                           last_name: answer.empLastName,
                           role_id: roleChosen.id,
-                          // dept_id: deptChosen.id
+                          // manager_id: managerChosen.manager_id
                       },
                       function (err) {
                           if (err) throw err;
