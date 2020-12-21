@@ -101,13 +101,13 @@ function viewEmployeesByDept() {
         choices: selectDept
       }]).then(function (answer) {
         connection.query(`SELECT *
-        FROM personnel_tracker_db.employee 
-        JOIN personnel_tracker_db.role
-        ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
-        JOIN personnel_tracker_db.department 
-        ON personnel_tracker_db.role.dept_id=personnel_tracker_db.department.id
-        WHERE personnel_tracker_db.department.dept_name = ?
-        ORDER BY employee.id, first_name ASC`, answer.deptSelection, function (err, res) {
+          FROM personnel_tracker_db.employee 
+          JOIN personnel_tracker_db.role
+          ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
+          JOIN personnel_tracker_db.department 
+          ON personnel_tracker_db.role.dept_id=personnel_tracker_db.department.id
+          WHERE personnel_tracker_db.department.dept_name = ?
+          ORDER BY employee.id, first_name ASC`, answer.deptSelection, function (err, res) {
           if (err) throw err;
           // Log all results of the SELECT statement
           console.table(res);
@@ -134,13 +134,13 @@ function viewEmployeesByRole() {
         choices: selectRole
       }]).then(function (answer) {
         connection.query(`SELECT *
-        FROM personnel_tracker_db.employee 
-        JOIN personnel_tracker_db.role
-        ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
-        JOIN personnel_tracker_db.department 
-        ON personnel_tracker_db.department.id=personnel_tracker_db.role.dept_id
-        WHERE personnel_tracker_db.role.title = ?
-        ORDER BY employee.id, first_name ASC`, answer.roleSelection, function (err, res) {
+          FROM personnel_tracker_db.employee 
+          JOIN personnel_tracker_db.role
+          ON personnel_tracker_db.employee.role_id=personnel_tracker_db.role.id
+          JOIN personnel_tracker_db.department 
+          ON personnel_tracker_db.department.id=personnel_tracker_db.role.dept_id
+          WHERE personnel_tracker_db.role.title = ?
+          ORDER BY employee.id, first_name ASC`, answer.roleSelection, function (err, res) {
           if (err) throw err;
           // Log all results of the SELECT statement
           console.table(res);
@@ -151,3 +151,74 @@ function viewEmployeesByRole() {
   })
 
 }
+
+function addEmployee() {
+  let selectedRole = [];
+  connection.query("SELECT * FROM role", function (err, result) {
+      if (err) throw err;
+      for (let i = 0; i < result.length; i++) {
+          let roleList = result[i].title;
+          selectedRole.push(roleList);
+      };
+      let selectedDept = [];
+      connection.query("SELECT * FROM department", function (err, data) {
+          if (err) throw err;
+          for (let i = 0; i < data.length; i++) {
+              let deptList = data[i].dept_name;
+              selectedDept.push(deptList);
+          }
+          inquirer
+              .prompt([
+                  {
+                      name: "empFirstName",
+                      type: "input",
+                      message: "Please enter the new employees first name:"
+                  }, {
+                      name: "empLastName",
+                      type: "input",
+                      message: "Please enter the new employees last name:"
+                  },
+                  {
+                      name: "role_id",
+                      type: "list",
+                      message: "Select employee's role:",
+                      choices: selectedRole
+                  },
+                  {
+                      name: "dept_id",
+                      type: "list",
+                      message: "Select employee's department:",
+                      choices: selectedDept
+                  },
+              ]).then(function (answer) {
+                  let roleChosen;
+                  for (let i = 0; i < result.length; i++) {
+                      if (result[i].title === answer.role_id) {
+                          roleChosen = result[i];
+                      }
+                  };
+                  let deptChosen;
+                  for (let i = 0; i < data.length; i++) {
+                      if (data[i].dept_name === answer.dept_id) {
+                          deptChosen = data[i];
+                      }
+                  };
+                  //connection to insert response into database  
+                  connection.query(
+                      "INSERT INTO employee SET ?",
+                      {
+                          first_name: answer.empFirstName,
+                          last_name: answer.empLastName,
+                          role_id: roleChosen.id,
+                          // dept_id: deptChosen.id
+                      },
+                      function (err) {
+                          if (err) throw err;
+                          console.log("Employee " + answer.empFirstName + " " + answer.empLastName + " added!");
+                          start();
+                      }
+                  );
+              })
+      });
+  })
+};
