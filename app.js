@@ -30,7 +30,7 @@ function start() {
       name: "userWhatToDo",
       type: "list",
       message: "What would you like to do?",
-      choices: ["View All Employees", "View All Employees By Department", "View All Employees By Role", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "View All Employees By Manager", "Add Role", "Remove Role", "EXIT"]
+      choices: ["View All Employees", "View All Employees By Department", "View All Employees By Role", "Add Employee", "Add Role", "Add Department", "Update Employee Role", "Update Employee Manager", "View All Employees By Manager", "Remove Employee", "Remove Role", "EXIT"]
     })
     .then(function (answer) {
       // based on their answer, either call the bid or the post functions 
@@ -46,8 +46,11 @@ function start() {
       else if (answer.userWhatToDo === "Add Employee") {
         addEmployee();
       }
-      else if (answer.userWhatToDo === "Remove Employee") {
-        removeEmployee();
+      else if (answer.userWhatToDo === "Add Role") {
+        addRole();
+      }
+      else if (answer.userWhatToDo === "Add Department") {
+        addDept();
       }
       else if (answer.userWhatToDo === "Update Employee Role") {
         updateEmployeeRole();
@@ -58,8 +61,8 @@ function start() {
       else if (answer.userWhatToDo === "View All Employees By Manager") {
         viewEmployeesByManager();
       }
-      else if (answer.userWhatToDo === "Add Role") {
-        addRole();
+      else if (answer.userWhatToDo === "Remove Employee") {
+        removeEmployee();
       }
       else if (answer.userWhatToDo === "Remove Role") {
         removeRole();
@@ -271,5 +274,26 @@ function addRole() {
                   start();
               }
           );          
+      })
+};
+
+function addDept() {
+  inquirer
+      .prompt({
+          type: "input",
+          message: "What department would you like to add?",
+          name: "departmentName",
+      }).then(function (answer) {
+          connection.query(
+              "INSERT INTO department SET ?",
+              { 
+                dept_name: answer.departmentName 
+              },
+              function (err, res) {
+                if (err) throw err;
+                console.log("The " + answer.departmentName + " department was successfully added!")
+                start();
+            }
+          );
       })
 };
