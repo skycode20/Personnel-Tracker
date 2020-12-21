@@ -241,3 +241,35 @@ function addEmployee() {
       });
   })
 };
+
+function addRole() {
+  inquirer
+      .prompt([{
+          name: "roleName",
+          type: "input",
+          message: "Please enter the role you would like to add:"
+      }, {
+          name: "roleSalary",
+          type: "input",
+          message: "Please enter the salary of this position:"
+        }, {
+          name: "roleDepartment", 
+          type: "input",
+          message: "Please enter the department id number of this role:"
+      }]).then(function (answer) {
+
+          connection.query(
+              "INSERT INTO role SET ?",
+              {
+                  title: answer.roleName,
+                  salary: answer.roleSalary,
+                  dept_id: answer.roleDepartment
+              },
+              function (err, res) {
+                  if (err) throw err;
+                  console.log("The " + answer.roleName + " role was successfully added!")
+                  start();
+              }
+          );          
+      })
+};
