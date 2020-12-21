@@ -297,3 +297,44 @@ function addDept() {
           );
       })
 };
+
+function removeEmployee() {
+  let employeeSelection = [];
+  connection.query("SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employee", function (err, res) {
+      if (err) throw err;
+      for (let i = 0; i < res.length; i++) {
+          let empList = res[i].name;
+          employeeSelection.push(empList);
+      };
+
+      inquirer
+          .prompt([
+              {
+                  name: "employee_id",
+                  type: "list",
+                  message: "Select the employee you would like to remove:",
+                  choices: employeeSelection
+              },
+          ])
+          .then(function (answer) {
+
+              let employeeChosen;
+              for (let i = 0; i < res.length; i++) {
+                  if (res[i].name === answer.employee_id) {
+                      employeeChosen = res[i];
+                  }
+              };
+
+              connection.query(
+                  "DELETE FROM employee WHERE id=?",
+                  [employeeChosen.id],
+
+                  function (err) {
+                      if (err) throw err;
+                      console.log("The employee was successfully removed. Good Luck!");
+                      start();
+                  }
+              );
+          });
+  })
+};
