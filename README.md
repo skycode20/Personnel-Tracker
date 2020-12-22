@@ -29,22 +29,19 @@
 
     Install the required npm packages such as inquirer, file system, path, and os. Also install Node.js as it is essential for running the CLI application. Then download all of the project's code from the repository. Once all of that has been completed, run ```node index.js``` to initiate the program.
 
-  To install the **Personnel Profile Generator** please follow these steps:
+  To install the **Personnel Tracker** please follow these steps:
 
   1. Download all of the project's source files `(clone the GitHub repository)`.
   2. Ensure your terminal is inside of the current folder that contains the source files.
   3. Install the following **NPMs** `(Node Package Managers)` in the system terminal:
         * Node.js
         * Inquirer (command: ```npm i inquirer```)
-        * FileSystem (command: ```npm i fs```)
-        * Path (command: ```npm i path```)
-        * Jest (command: ```npm i jest```)
-        * OS (command: ```npm i os```)
+        * MySQL (command: ```npm i mysql```)
         * **Or just ```npm i``` that will install the packages within the `package.json` file. 
 
   ## Usage    
 
-  For any leader in an organization that wanted to have a list of his/her team quickly published on an html document that can be uploaded to a site can now do so. It can showcase the positions of each team member in a clear mannerso that when it is uploaded to the company website the user can be proud of the clean look of the page. The user does not need to have any expertise in programming. it is easy to use and intuitive. Just run `node app.js` in the integrated terminal to initiate the program. Then when you're done you will have a beautiful page with your personnel's profiles.
+  The user does not need to have any expertise in programming. it is easy to use and intuitive. Just run `node app.js` in the integrated terminal to initiate the program. The application will run a series of prompts that request user choices and input to deliver the intended results into the database as desired. It is very stright-forward. Once each command is complete the information is stored (or deleted) into the database immediately.
   ## License    
 
   The inquirer is covered under the following license: ![inquirer](https://img.shields.io/npm/l/inquirer)
@@ -53,12 +50,9 @@
 
   If you are interested in contributing to this project please adhere to the set of guidelines set forth by the [Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). If any questions about the contributor guidelines feel free to contact me at skyler.rencher@gmail.com.
 
-      
-  
-
   ## Tests    
 
-  Trial and error
+  There were no tests run aside from trial and error. Also testing the code as I'm entering it in allowed me to ensure the code was running properly with each update.
 
   ## Questions    
 
