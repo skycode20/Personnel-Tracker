@@ -62,4 +62,4 @@
 
   * [Personnel-Tracker Repository](https://github.com/skycode20/Personnel-Tracker)
 
-  * [Personnel-Tracker Demo Video](https://github.com/skycode20/Personnel-Tracker)
+  * [Personnel-Tracker Demo Video](https://drive.google.com/file/d/1VIkS9DLwCI_VlTR7jO6lh28Zsw_MMFkv/view?usp=sharing)
